@@ -1,0 +1,847 @@
+
+% Default to the notebook output style
+
+
+% Inherit from the specified cell style.
+
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+
+    \usepackage[T1]{fontenc}
+    % Nicer default font (+ math font) than Computer Modern for most use cases
+    \usepackage{mathpazo}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+    \usepackage{listings} % Used to define pretty listings for code sections [jfb]
+    \usepackage{float}   
+
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    
+\title{ }
+
+    
+    
+\author{J.-F. Bercher}
+
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+    breaklinks=true, % so long urls are correctly broken across lines
+	pdftitle={\@title},
+	pdfauthor={\@author},
+	colorlinks=true, % color links 
+	breaklinks=true, % enable to break long links
+	urlcolor= blue,  % color for external links
+	linkcolor= blue, % color for external links
+	citecolor=blue,  
+	bookmarksopen=false,
+	pdftoolbar=false,
+	pdfmenubar=false,
+%      hidelinks
+      }
+    % Slightly bigger margins than the latex defaults
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    %listings configuration
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+	\lstset{
+language=Python,
+commentstyle=\color{mygreen},
+keywordstyle=\color{blue},
+stringstyle=\color{mymauve},
+xleftmargin= 1cm,
+xrightmargin= 1cm,
+showstringspaces=false,
+	   breaklines=true,
+	   texcl=false,
+%	   basicstyle=\ttfamily,
+frame=single,
+frameround=tttt,
+framesep=10pt,
+%framexleftmargin=10pt,
+%framexrightmargin =10pt,
+%frameshape={RYRYNYYYY}{yny}{yny}{RYRYNYYYY} 
+        inputencoding=utf8,
+        extendedchars=true,
+        literate=%
+        {é}{{\'{e}}}1
+        {è}{{\`{e}}}1
+        {ê}{{\^{e}}}1
+        {ë}{{\¨{e}}}1
+        {É}{{\'{E}}}1
+        {Ê}{{\^{E}}}1
+        {û}{{\^{u}}}1
+        {ù}{{\`{u}}}1
+        {à}{{\`{a}}}1
+        {ç}{{\c{c}}}1
+        {Ç}{{\c{C}}}1
+        {î}{{\^{i}}}1
+        {Î}{{\^{I}}}1
+}
+
+
+%\usepackage{foo}
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+\tableofcontents
+
+    
+
+
+    %
+\begin{lstlisting}
+from numpy import *
+import matplotlib.pyplot as plt
+from IPython.display import HTML, display
+from matplotlib import animation
+import scipy.sparse as sp
+import warnings
+
+%matplotlib inline
+plt.rcParams['animation.html'] = 'html5'
+warnings.filterwarnings('ignore')
+
+
+####################CONST####################
+hbar = 1.05E-34
+m = 9.11E-31    # elektronmasse
+V0 = 1.6E-19
+Ntot = 1000     # Intervallbredde
+N = 100         # Parabolbredde
+dx = 1.0E-10    # 1Å
+harmonic = True
+##############################################
+
+#################VARIABLE#####################
+sigma = N / 4 * dx
+p0 = 3E-25
+k0 = p0 / hbar
+omega = sqrt(k0 / m)
+meanE = p0 ** 2 / (2 * m)
+alpha = 1 / (2 * sigma ** 2)
+##############################################
+
+def V(x):
+    if not harmonic:         # Fri partikkel
+        return zeros_like(x)
+    else:                    # Harmonisk
+        V = V0 * ((x - x0) / (N * dx)) ** 2  # N=x/dx
+        mask = ((x0 - N * dx) < x) & (x < (x0 + N * dx))
+        return where(mask, V, V0)
+    
+def animator(time=200,figsize=(7,4)):
+    def init():
+        line.set_data([], [])
+        marker1.set_data([], [])
+        marker2.set_data([], [])
+        marker3.set_data([], [])
+        return line, marker1, marker2, marker3,
+
+    def animate(i):
+        t = tArr[i]
+        line.set_data(x, BigPsiSquared(t))
+        marker1.set_data(meanX(t) + sigmaX(t), 0)
+        marker2.set_data(meanX(t) - sigmaX(t), 0)
+        marker3.set_data(meanX(t), 0)
+        return line, marker1, marker2, marker3,
+
+    tArr = arange(time) * 3E-15
+
+    fig = plt.figure(figsize=figsize)
+    ymax = 1.7E8 
+    ax = plt.axes(xlim=(0, Ntot * dx), ylim=(0, ymax))
+    line, = ax.plot([], [], lw=1,label=r'$\left| \Psi \right|^2$')
+    marker1, = ax.plot([], [], 'bo',label=r'$\Delta x_t$')
+    marker2, = ax.plot([], [], 'bo')
+    marker3, = ax.plot([], [], 'co',label=r'$\langle x \rangle_t$')
+    plt.xlabel('$x$ (m)')
+
+    if harmonic:
+        plt.xlim(0.3E-7,0.7E-7)
+        b0 = x[abs(V(x) * 10 ** 27 - ones_like(x) * meanE * 10 ** 27) < 0.005E8]
+        print(b0)
+        
+        plt.plot(x, ones_like(x) * meanE * 10 ** 27,label='$E=p_0^2/2m$')
+        plt.plot(x, V(x) * 10 ** 27,label='$V$')
+        plt.plot(x0, 0, 'ko', label='$x_0$')
+        plt.plot(b0, zeros_like(b0), 'ro',label='$b_0$')
+    
+    plt.legend(loc='upper left', borderaxespad=1.5,borderpad=0.1)
+    anim=animation.FuncAnimation(fig, animate, init_func=init, repeat=True, frames=len(tArr), interval=64, blit=True)
+    plt.close(fig)
+    display(HTML(anim.to_html5_video()))
+\end{lstlisting}
+    \hypertarget{innledning}{%
+\section{Innledning}\label{innledning}}
+
+Et grunnleggende postulat i kvantemekanikken sier at tilstanden til et
+system er fullstendig beskrevet av systemets bølgefunksjon \(\Psi\),
+hvis løsning kommer av Schrödingerlikningen
+\begin{equation}\label{eq:SL}
+    i\hbar\frac{\partial\Psi}{\partial t}=\hat{H}\Psi
+\end{equation} hvor \(\hat{H}=-\frac{\hbar^2}{2m}\nabla^2+V\) er
+systemets Hamiltonoperator.
+
+Ved Bornes sannsynlighetstolkning vil en kvantemekanisk partikkel kunne
+beskrives i henhold til en sannsynlighetsfordeling gitt ved
+\(\left|\Psi\right|^2\). For tidsuavhengige potensialer \(V=V(\vec{r})\)
+vil \eqref{eq:SL} kunne løses ved seperasjon av variable, slik at
+bølgefunksjonen blir på formen \begin{equation}\label{eq:Psi}
+    \Psi(\vec{r},t)=\psi(\vec{r})e^{-iEt/\hbar}
+\end{equation} der \(\psi\) er løsningen av den tidsuavhengige
+Schrödingerlikningen \begin{equation}
+    \label{eq:TUSL}
+    \hat{H}\psi=E\psi
+\end{equation} Dette er en egenverdilikning som kvantiserer systemets
+tilstander i et fullstendig egenfunksjonsett \(\left{ \psi_j \right}\)
+med tilhørende spekter \(\left{ E_j \right}\). Vi skal utelukkende
+studere éndimensjonale potensialer som resulterer i diskrete utgaver av
+nevnte mengder. Bølgefunksjonen \eqref{eq:Psi} beskriver en stasjonær
+tilstand der sannsynlighetsfordelingen ikke avhenger av tiden. Siden
+\(\hat{H}\) er en hermitesk operator vil \(\left{ \psi_j \right}\) danne
+en ortogonal basis for Hilbertrommet \(\mathcal{H}\), slik at
+\begin{equation}\label{eq:psiDotpsi}
+    \langle \psi_i,\psi_j \rangle=\int{\psi_i^* \psi_j} \space dx=\delta_{ij}
+\end{equation} for normerte \(\psi\). Dette innebærer videre at en
+generell bølgefunksjon \(\Psi \in \mathcal{H}\) kan utvikles som
+
+\begin{equation}\label{eq:expansion}
+    \Psi=\sum_{j} c_j \psi_j e^{-iE_jt/\hbar}
+\end{equation}
+
+med resulterende tidsavhengig sannsynlighetsfordeling.\\
+Utviklingskoeffisientene finnes ved
+
+\begin{equation}\label{eq:expansionCoeff}
+    c_j=\langle \psi_j,\Psi(x,0) \rangle
+\end{equation}
+
+og resulterer i
+\(\langle \Psi,\Psi \rangle=\sum_j \left| c_j \right|^2=1 \space \forall t \space\)
+når \(\left{ \psi_j \right}\) er ortonormale.
+
+I denne øvingen ser vi nærmere på tidsutviklingen til bølgepakken hvis
+starttilstand \begin{equation}\label{eq:Gaussian} 
+    \Psi(x,0)=(2\pi\sigma^2)^{-1/4}e^{-x^2/4\sigma^2}e^{ip_0x/\hbar}
+\end{equation}
+
+er en overlagring av de-Broglie-bølger som beskriver
+sannsynlighetsfordelingen rundt en tilnærmet lokalisert partikkel. Vi
+skal visualisere \(\left | \Psi \right|^2\) i henholdsvis et harmonisk-
+og konstant potensiale
+
+\begin{equation}
+  \label{eq:potensial} 
+  V(x) =
+  \begin{cases}
+  0 & \text{Fri partikkel} \\
+  V_0(x-x_0)^2 & \text{Harmonisk partikkel} \\
+  \end{cases}
+\end{equation}
+
+ved å numerisk bestemme egenfunksjonene som oppfyller likning
+\eqref{eq:TUSL}, og siden utvikle \(\Psi\) i henhold til
+\eqref{eq:expansion}. Med denne representasjonen kan forventningsverdien
+av en observerbar størrelse \(F\) beregnes som
+\begin{equation}\label{eq:expectation}
+    \langle F \rangle=\int\Psi^{*}\hat{F} \space \Psi \space dx
+\end{equation} for enhvert tid.
+%
+\begin{lstlisting}
+x = arange(Ntot) * dx
+x0 = x[len(x) // 2] if len(x) % 2 != 0 else (x[len(x) // 2 - 1] + x[len(x) // 2]) * (1 / 2)
+x=x.reshape((Ntot,1))
+
+plt.figure(figsize=(16,4))
+plt.plot(x, zeros_like(x), color='k',lw=1)
+plt.plot(x0, 0, 'bo', label='$x_0$')
+plt.plot(x, V(x), label='Harmonisk partikkel')
+plt.legend(loc='best')
+plt.xlabel('$x$ (m)')
+plt.ylabel('$V$ ( J )')
+plt.show()
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_2_0.png}
+    \end{center}
+\end{figure}
+    
+    \hypertarget{numerisk-tilnuxe6rming}{%
+\section{Numerisk tilnærming}\label{numerisk-tilnuxe6rming}}
+
+Rammene for oppgaven legges ved å diskretisere x-aksen i \(N_{tot}\)
+punkter med innbyrdes avstand \(\Delta x\). Vi lar \(x_0\) betegne
+midtpunktet på x-aksen. Sentrert rundt \(x_0\) oppretter vi et område av
+bredde \(N\) hvor det harmoniske potensialet i likning
+\eqref[eq:potential]\} er definert. For resten av det diskretiserte
+området defineres \(V(x)=V_0\) når potensialet er harmonisk, og ellers
+lar vi hele det diskretiserte området ha \(V(x)=0\) når vi betrakter en
+fri partikkel. Utenfor det diskretiserte området antar vi
+\(V(x)=\infty\) slik at bølgefunksjonen følgelig må gå mot null ved
+endepunktene. Ved å tilnærme \(\psi^{\prime \prime}\) med
+sentraldifferanser kan \eqref{eq:TUSL} modelleres ved
+\begin{equation}\label{eq:NumTUSL}
+   \mathbb{H}\vec{\psi}=E\vec{\psi}
+\end{equation}
+
+der den tridiagonale matrisen
+\(\mathbb{H}\in \mathbb{R}^{N_{tot} \times N_{tot}}\) har elementer
+
+\begin{equation}
+  \label{eq:matrixElem} 
+  \begin{cases}
+  \mathbb{H}_{nn}&= \frac{\hbar^2}{m(\Delta x)^2}+V(x_n) \\
+  \mathbb{H}_{n,n\pm1}&= -\frac{\hbar^2}{2m(\Delta x)^2} \\
+  \end{cases}
+\end{equation}
+
+og \(\vec{\psi}\in \mathbb{R}^{N_{tot}\times 1}\) er en egenvektor som
+svarer til egenfunksjonen \(\psi\) evaluert for den diskretiserte
+x-aksen \(x_n=n\Delta x \;\;\;\; n=1,..,N_{tot}\).
+
+Ved å bruke \texttt{np.linalg.eigh(} \(\mathbb{H}\) \texttt{)} fås
+\(N_{tot}\) egenvektorer \(\vec{\psi}^{(j)}\) med tilhørende egenverdier
+\(E_j\) som tilfredsstiller likning \eqref{eq:NumTUSL}. Normeringen
+gjøres analogt til likning \eqref{eq:psiDotpsi} ved
+
+\begin{equation}\label{eq:psiDotpsiNum}
+    \sum_{n=1}^{N_{tot}} \left| \space \psi_n^{(j)} \right|^2 \Delta x =1 \;\;\;\;  j=1,..,N_{tot}
+\end{equation}
+
+der summen går over komponentene av den aktuelle egenvektoren. Vektorene
+tilsvarer med dette egenfunksjonsettet fra likning \eqref{eq:TUSL}, og
+kan dermed brukes til å utvikle starttilstanden \eqref{eq:Gaussian} i
+henhold til likning \eqref{eq:expansion} gitt at likning
+\eqref{eq:expansionCoeff} tilnærmes ved
+\begin{equation}\label{eq:NumExpansionCoeff}
+    c^{(j)}=\sum_{n=1}^{N_{tot}} \psi_n^{(j)*} \Psi(x_n,0)\Delta x  \;\;\;\;  j=1,..,N_{tot}
+\end{equation}
+%
+\begin{lstlisting}
+def getBigPsiSquared(p0=p0, sigma=sigma, harmonic=harmonic):
+    k0 = p0 / hbar
+    omega = sqrt(k0 / m)
+    meanE = p0 ** 2 / (2 * m)
+    alpha = 1 / (2 * sigma ** 2)
+    globals().update(p0=p0, sigma=sigma, harmonic=harmonic, k0=k0, omega=omega, meanE=meanE, alpha=alpha)
+
+    subsupDiag = -ones(Ntot - 1) * hbar ** 2 / (2 * m * dx ** 2)
+    diagon = ones(Ntot) * hbar ** 2 / (m * dx ** 2) + V(x.T)
+    H = array([diagon, subsupDiag, subsupDiag]); offsets = array([0, -1, 1])
+    H = sp.diags(H, offsets, shape=(Ntot, Ntot))
+    E, Psi = linalg.eigh(H.todense())  
+    E, Psi = asarray(E).reshape(Ntot, 1), asarray(Psi, dtype=complex128)
+    quadPsi = linalg.norm(Psi, 2, 0) ** 2 * dx
+    normFactor = quadPsi[0]  
+    Psi /= sqrt(normFactor)  
+    PsiConj = conj(Psi)
+
+    coefficient = (2 * pi * sigma ** 2) ** (-0.25)
+    envelope = exp(-(x - x0) ** 2 / (4 * sigma ** 2))
+    planewave = exp(1j * k0 * x)
+    Psi0 = (coefficient * envelope * planewave)
+    c = (PsiConj.T @ Psi0 * dx)
+
+    BigPsi = lambda t: Psi @ (c * (exp(-1j * E * t / hbar)))
+    BigPsiSquared = lambda t: abs(BigPsi(t)) ** 2  
+    return BigPsiSquared
+
+meanX=lambda t: (x.T)@BigPsiSquared(t)*dx
+meanX2=lambda t: (x.T)**2@BigPsiSquared(t)*dx
+sigmaX=lambda t: sqrt(meanX2(t)-meanX(t)**2)
+analyticSigmaX=lambda t: sqrt(sigma**2+hbar**2*t**2/(4*m**2*sigma**2))
+meanP= lambda t: (p0 + 1j * hbar * alpha * x.T)@BigPsiSquared(t)*dx
+#meanP2= lambda t: ((p0 + 1j * hbar * alpha * x.T) ** 2 + hbar ** 2 * alpha)@BigPsiSquared(t)*dx
+meanP2= lambda t: ((p0 + 1j * hbar * alpha * x.T) ** 2 + hbar ** 2 * alpha)@BigPsiSquared(t)*dx
+sigmaP=lambda t: sqrt(meanP2(t)-meanP(t)**2)
+heisenProd=lambda t: sigmaP(t)*sigmaX(t)
+\end{lstlisting}
+    \hypertarget{oppgaver}{%
+\section{Oppgaver}\label{oppgaver}}
+
+Vi ønsker
+
+Fri partikkel: (N=100, sigma=N/4) * fordeling har praktisk talt
+analytisk usikkerhet i posisjon for 1E-12 * litt ``frysninger'' som
+kommer når numerisk usikkerhet overstiger analytisk usikkerhet *
+Usikkerheten i pos minker når partikkelen treffer veggene. Dette som gir
+periodiske dupp i numerisk sigma x. Bredden på dupp henger sammen med
+bredden på fordeling. Jo bredere/flatere fordeling, jo større dupp over
+lengre tid ettersom fordelingen bruker lengre tid ved veggen og i større
+grad presses sammen ved veggen ()
+
+\begin{itemize}
+\item
+  Rimelig god overenstemmelse for 1E-21, fordeling flater ut under
+  traversering, ingen ``frysninger'' og numerisk usikkerhet overstiger
+  ikke analytisk usikkerhet
+\item
+  Grad av utflatning reflekteres i hvor fort usikkerheten i posisjon
+  stiger.
+\item
+  sigma x stiger raskere for mindre initiell sigma
+\item
+  for fiksert p0 vil en større initiell sigma gi bedre tilnærmelse
+  mellom numerisk og analytisk usikkerhet under traversering, men større
+  avvik når partikkelen treffer veggen siden ``duppene'' blir større.
+  Fordelingen synker mindre sammen for større initiell sigma.
+\item
+  hvordan svarer flere verdier av p0 til riktige uttrykk for sigma x
+\item
+  for fiksert
+\end{itemize}
+
+harmonisk potensiale: (N=100, sigma=N/4) * tyngepunktet varierer
+harmonisk * når sigma p minker så øker sigma x og omvendt *
+sannsynlighetsfordelingen ``slarker minst'' når sigmaene varierer
+stabilt slik at heisenprod er periodisk * for en verdi av p0=3.6E-25
+slik at usikkerhetene slår hverandre ut (og konvergerer til hbar/2)
+slarker fortsatt sannsynlighetsfordelingen endel.
+%
+\begin{lstlisting}
+BigPsiSquared = \
+getBigPsiSquared(p0=1E-12,harmonic=False)
+
+tArr=arange(100)*3E-15
+plt.figure(figsize=(7,4))
+plt.title('p0: '+str(p0))
+plt.plot(tArr,sigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (numerisk)')
+plt.plot(tArr,analyticSigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (analytisk)')
+plt.legend(loc='best')
+plt.xlabel('$t$ (s)')
+plt.show()
+
+animator();
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_6_0.png}
+    \end{center}
+\end{figure}
+    
+    
+    
+
+    %
+\begin{lstlisting}
+BigPsiSquared = \
+getBigPsiSquared(p0=0.9E-21,harmonic=False)
+
+tArr=arange(100)*3E-15
+plt.figure(figsize=(7,4))
+plt.title('p0: '+str(p0))
+plt.plot(tArr,sigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (numerisk)')
+plt.plot(tArr,analyticSigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (analytisk)')
+plt.legend(loc='best')
+plt.xlabel('$t$ (s)')
+plt.show()
+
+animator();
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_7_0.png}
+    \end{center}
+\end{figure}
+    
+    
+    
+
+    %
+\begin{lstlisting}
+BigPsiSquared = \
+getBigPsiSquared(p0=0.9E-21,sigma = N / 10 * dx,harmonic=False)
+
+tArr=arange(100)*3E-15
+plt.figure(figsize=(7,4))
+plt.title('p0: '+str(p0))
+plt.plot(tArr,sigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (numerisk)')
+plt.plot(tArr,analyticSigmaX(tArr).reshape(tArr.shape),\
+         label='$\sigma_{x}$ (analytisk)')
+plt.legend(loc='best')
+plt.xlabel('$t$ (s)')
+plt.show()
+
+animator();
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_8_0.png}
+    \end{center}
+\end{figure}
+    
+    
+    
+
+    %
+\begin{lstlisting}
+BigPsiSquared =\
+getBigPsiSquared(p0=3E-25,sigma = N / 5 * dx,\
+                 harmonic=True)
+
+tArr=arange(200)*3E-15
+
+fig, axArr =\
+plt.subplots(1, 2, sharex=True,figsize=(7,4))
+
+plt.suptitle('p0: '+str(p0))
+
+axArr[0].plot(tArr,sigmaX(tArr).reshape(tArr.shape),\
+              label='$\sigma_{x}$')
+axArr[0].legend(loc='best')
+axArr[0].set_xlabel('$t$')
+axArr[1].plot(tArr,sigmaP(tArr).reshape(tArr.shape),\
+              label='$\sigma_p$')
+axArr[1].legend(loc='best')
+axArr[1].set_xlabel('$t$')
+
+plt.figure(figsize=(7,4))
+plt.title('p0: '+str(p0))
+plt.plot(tArr,heisenProd(tArr).reshape(tArr.shape),\
+         label='$\sigma_p\sigma_x$')
+plt.plot(tArr,ones_like(tArr)*hbar/2, label="$\hbar/2$")
+plt.legend(loc='best')
+plt.xlabel("$t$")
+plt.show()
+
+animator()
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_9_0.png}
+    \end{center}
+\end{figure}
+    
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_9_1.png}
+    \end{center}
+\end{figure}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+[  4.44000000e-08   5.55000000e-08]
+
+    \end{Verbatim}
+
+    
+    
+
+    %
+\begin{lstlisting}
+BigPsiSquared =\
+getBigPsiSquared(p0=3.6E-25, sigma = N/4* dx,\
+                 harmonic=True)
+
+tArr=arange(200)*3E-15
+
+fig, axArr =\
+plt.subplots(1, 2, sharex=True,figsize=(7,4))
+
+plt.suptitle('p0: '+str(p0))
+
+axArr[0].plot(tArr,sigmaX(tArr).reshape(tArr.shape),\
+              label='$\sigma_{x}$')
+axArr[0].legend(loc='best')
+axArr[0].set_xlabel('$t$')
+axArr[1].plot(tArr,sigmaP(tArr).reshape(tArr.shape),\
+              label='$\sigma_p$')
+axArr[1].legend(loc='best')
+axArr[1].set_xlabel('$t$')
+
+plt.figure(figsize=(7,4))
+plt.title('p0: '+str(p0))
+plt.plot(tArr,heisenProd(tArr).reshape(tArr.shape),\
+         label='$\sigma_p\sigma_x$')
+plt.plot(tArr,ones_like(tArr)*hbar/2, label="$\hbar/2$")
+plt.legend(loc='best')
+plt.xlabel("$t$")
+plt.show()
+
+animator()
+\end{lstlisting}%
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_10_0.png}
+    \end{center}
+\end{figure}
+    
+    
+\begin{figure}
+    \begin{center}
+        \adjustimage{max size={0.7\linewidth}{0.3\paperheight}}{test_files/test_10_1.png}
+    \end{center}
+\end{figure}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+[  4.33000000e-08   5.66000000e-08]
+
+    \end{Verbatim}
+
+    
+    
+
+    
+
+    % Add a bibliography block to the postdoc
+    
+    
+%\bibliographystyle{ieetran}
+%\bibliography{Thesis}
+
+    
+    \end{document}
